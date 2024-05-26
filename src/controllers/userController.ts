@@ -35,7 +35,19 @@ export const getUsers = async (req:any, res:any) => {
         data: {
           name,
           email,
-          password: hashPassword
+          password: hashPassword,
+          Balance: {
+            create: [
+              {
+                amount: 0,
+                locked: 0
+                
+              },
+            ],
+          },
+
+
+
         },
         select:{
           id: true,
