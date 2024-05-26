@@ -160,7 +160,7 @@ export const checkout = async (req:any, res:any) => {
 
         // Process the webhook payload
         const event = req.body;
-        console.log('Received event:', event);
+       // console.log('Received event:', event);
 
         // Perform necessary actions based on the event type
         switch (event.event) {

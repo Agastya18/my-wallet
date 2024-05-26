@@ -31,7 +31,7 @@ export const getUsers = async (req:any, res:any) => {
       const hashPassword = await bcrypt.hash(password, salt)
 
 
-      const newUser = await prisma.user.create({
+      const user = await prisma.user.create({
         data: {
           name,
           email,
@@ -56,20 +56,24 @@ export const getUsers = async (req:any, res:any) => {
         }
       });
 
-      const authtoken = jwt.sign({id: newUser.id}, process.env.JWT_SECRET || '', {expiresIn: 3600})
+      const authtoken = jwt.sign({id: user.id}, process.env.JWT_SECRET || '', {expiresIn: 3600})
 
       res.cookie('authToken', authtoken, {
         httpOnly: true,
         sameSite: "strict",
-        // secure: process.env.NODE_ENV === 'production', 
-        secure: true,
+        secure: process.env.NODE_ENV === 'production', // Use secure cookies in production
         maxAge: 3600000 ,// 1 hour
         
       });
+     
 
 
-       
-      res.status(201).json({message: "User created successfully", authtoken, user: newUser});
+      res.status(200).json({message: "User signed up successfully", authtoken, user: {
+        id: user.id,
+        username: user.name,
+        email: user.email,
+        
+      }});
       
     } catch (error) {
 

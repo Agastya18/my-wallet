@@ -1,10 +1,12 @@
 import { useState } from "react"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 const SignUp = () => {
   const [name,setName]= useState("")
   const [password,setPass]= useState("")
   const [email,setEmail]= useState("")
-
+    
+  const navigate = useNavigate()
   
   const handleSubmit = async(e:any) =>{
     e.preventDefault()
@@ -12,9 +14,15 @@ const SignUp = () => {
       alert("All fields are required")
       return}
       
-    const res= await axios.post("http://localhost:3000/signup", {name, password, email})
+    const res= await axios.post("http://localhost:3000/signup", {name, password, email},
+    {
+      withCredentials: true
+    }
+    )
 
    console.log(res.data)
+
+   navigate("/transfer")
 
 
 
